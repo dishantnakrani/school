@@ -1,0 +1,13 @@
+const obj = { ...signDetails };
+    const user = [...alldata];
+    user.push(obj);
+    setAlldata(user);
+    console.log(user);
+    // localStorage.setItem("alldata", JSON.stringify(user));
+    setSignDetails(initialvalue);
+
+
+
+
+
+    

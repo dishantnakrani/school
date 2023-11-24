@@ -1,0 +1,359 @@
+import React, { useState, useEffect } from "react";
+import { Col } from "react-bootstrap";
+import { AiTwotoneDelete } from "react-icons/ai";
+import { AiTwotoneEdit } from "react-icons/ai";
+
+const initialState = {
+  name: "",
+  email: "",
+  dob: "",
+  standard: "",
+  gender: "",
+  address: "",
+  range: "",
+  id: Date.now(),
+};
+
+export default function FormLocal() {
+  const [studentDetails, setStudentDetails] = useState(initialState);
+  const [hobby, setHobby] = useState([]);
+  const [alldata, setAlldata] = useState([]);
+  const [un_id, setUn_id] = useState("");
+  // const [dummy, setDummy] = useState("");
+
+  const getfromlocal = JSON.parse(localStorage.getItem("alldata"));
+
+  useEffect(() => {
+    setAlldata(getfromlocal);
+  }, []);
+
+  const handlehobby = (e) => {
+    const clone = [...hobby];
+    console.log(clone);
+    const index = clone.findIndex((x) => x === e.target.value);
+    if (index === -1) {
+      clone.push(e.target.value);
+    } else {
+      clone.splice(index, 1);
+    }
+    // console.log(clone);
+    setHobby(clone);
+
+    // console.log(hobby);
+  };
+
+  const onChange = (event) => {
+    const { name, value } = event.target;
+    setStudentDetails({ ...studentDetails, [name]: value });
+  };
+
+  const stdOption = [
+    { label: "1" },
+    { label: "2" },
+    { label: "3" },
+    { label: "4" },
+    { label: "5" },
+    { label: "6" },
+    { label: "7" },
+    { label: "8" },
+    { label: "9" },
+    { label: "10" },
+    { label: "11" },
+    { label: "12" },
+  ];
+
+  const handlesubmit = () => {
+    const obj = { ...studentDetails, hobby: hobby };
+    console.log(obj);
+    setAlldata([...alldata, obj]);
+    localStorage.setItem("alldata", JSON.stringify([...alldata, obj]));
+    // console.log(alldata);
+    setStudentDetails({
+      name: "",
+      email: "",
+      dob: "",
+      standard: "",
+      gender: "",
+      address: "",
+      range: "",
+      id: Date.now(),
+    });
+    setHobby([]);
+    // console.log(studentDetails.id);
+  };
+
+  const handleDelete = (id) => {
+    console.log(id);
+    let clonedata = alldata;
+    clonedata = clonedata.filter((item) => item.id !== id);
+    localStorage.setItem("alldata", JSON.stringify(clonedata));
+    setAlldata(clonedata);
+  };
+
+  const handleEdit = (event) => {
+    setUn_id(event.id);
+    setStudentDetails({
+      name: event.name,
+      email: event.email,
+      dob: event.dob,
+      standard: event.standard,
+      gender: event.gender,
+      address: event.address,
+      range: event.range,
+    });
+    setHobby(event.hobby);
+  };
+
+  const update = () => {
+    let clonedata = alldata;
+    let objIndex = clonedata.findIndex((obj) => obj.id === un_id);
+    console.log(objIndex, "Index");
+
+    clonedata[objIndex].name = studentDetails.name;
+    clonedata[objIndex].email = studentDetails.email;
+    clonedata[objIndex].dob = studentDetails.dob;
+    clonedata[objIndex].standard = studentDetails.standard;
+    clonedata[objIndex].gender = studentDetails.gender;
+    clonedata[objIndex].address = studentDetails.address;
+    clonedata[objIndex].range = studentDetails.range;
+    clonedata[objIndex].hobby = hobby;
+
+    localStorage.setItem("alldata", JSON.stringify(alldata));
+    setAlldata(clonedata);
+    setUn_id("");
+    setStudentDetails(initialState);
+    setHobby([]);
+    // setDummy("asdf");
+  };
+
+  const handleBoth = () => {
+    if (un_id == "") {
+      handlesubmit();
+      alert("Form Submitted succesfully");
+    } else {
+      update();
+      alert("Form Updated succesfully");
+    }
+  };
+  return (
+    <div className="container">
+      <div className="d-flex justify-content-center">
+        <Col md={8} className="border mt-5">
+          {/* <div></div> */}
+          <div>
+            <h1 className="mt-4 mb-4">Student Registration Form </h1>
+            <div>
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter Name"
+                onChange={onChange}
+                value={studentDetails.name}
+                className="form-control"
+              />
+            </div>
+            <br></br>
+            <div>
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter E-mail"
+                onChange={onChange}
+                value={studentDetails.email}
+                className="form-control"
+              />
+            </div>
+            <br></br>
+            <div>
+              <label htmlFor="dob">Date Of Birth:</label>
+              <input
+                type="date"
+                id="dob"
+                name="dob"
+                placeholder="Enter Date of Birth"
+                onChange={onChange}
+                value={studentDetails.dob}
+                className="form-control"
+              />
+            </div>
+            <br></br>
+            <div>
+              <p>Address</p>
+              <textarea
+                placeholder="Address"
+                onChange={onChange}
+                rows={3}
+                // cols={40}
+                value={studentDetails.address}
+                name="address"
+                className="form-control"
+              />
+            </div>
+            <br></br>
+            <div>
+              <label>
+                Select Your Standard.
+                <select
+                  value={studentDetails.standard}
+                  name="standard"
+                  onChange={onChange}
+                  className="form-control"
+                >
+                  <option disabled>Select Standard</option>
+                  {stdOption.map((option) => (
+                    <option key={option.label} value={option.label}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div>
+              <p className="hobby">Select Gender</p>
+
+              <input
+                type="radio"
+                value="Male"
+                id="male"
+                name="gender"
+                checked={studentDetails.gender === "Male"}
+                onChange={onChange}
+                defaultChecked
+              />
+              <label htmlFor="male">Male</label>
+
+              <input
+                type="radio"
+                value="Female"
+                id="female"
+                name="gender"
+                checked={studentDetails.gender === "Female"}
+                onChange={onChange}
+              />
+              <label htmlFor="female">Female</label>
+            </div>
+            <div>
+              <p className="hobby">Select Your Hobby.</p>
+              <input
+                id="cricket"
+                value="Cricket"
+                type="checkbox"
+                onChange={handlehobby}
+                className="checkbox"
+                checked={hobby.findIndex((x) => x === "Cricket") !== -1}
+                //   value={hobby}
+              />
+              <label htmlFor="cricket" className="checklabel">
+                {" "}
+                Cricket{" "}
+              </label>
+            </div>
+            <div>
+              <input
+                id="hockey"
+                value="Hockey"
+                type="checkbox"
+                onChange={handlehobby}
+                className="checkbox"
+                checked={hobby.findIndex((x) => x === "Hockey") !== -1}
+              />
+              <label htmlFor="hockey" className="checklabel">
+                {" "}
+                Hockey{" "}
+              </label>
+            </div>
+            <div>
+              <input
+                id="kabbadi"
+                value="Kabbadi"
+                type="checkbox"
+                onChange={handlehobby}
+                className="checkbox"
+                checked={hobby.findIndex((x) => x === "Kabbadi") !== -1}
+              />
+              <label htmlFor="kabbadi" className="checklabel">
+                {" "}
+                Kabbadi{" "}
+              </label>
+            </div>
+            <input
+              id="typeinp"
+              type="range"
+              min="0"
+              max="50"
+              name="range"
+              value={studentDetails.range}
+              onChange={onChange}
+              step="5"
+            />
+            <br></br>
+
+            <button
+              onClick={handleBoth}
+              className="btn btn-primary"
+              style={{ marginTop: "20px" }}
+            >
+              {un_id == "" ? <span>Submit</span> : <span>Update</span>}
+            </button>
+          </div>
+        </Col>
+      </div>
+
+      <div className="d-flex justify-content-center">
+        <table className="mt-4 mb-5">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            {/* <th>Dob</th> */}
+            <th>Dob</th>
+            <th>Address</th>
+            <th>Standard</th>
+            <th>Gender</th>
+            <th>Range</th>
+            <th>Hobby</th>
+            <th className="text-center" colSpan={2}>
+              Changes
+            </th>
+          </tr>
+          {alldata.map((e) => {
+            return (
+              <tr key={e.id}>
+                <td>{e.name}</td>
+                <td>{e.email}</td>
+                <td>{e.dob}</td>
+                <td>{e.address}</td>
+                <td>{e.standard}</td>
+                <td>{e.gender}</td>
+                <td>{e.range}</td>
+                <td>{e.hobby.join(",")}</td>
+                <td>
+                  <button
+                    className="buttons"
+                    onClick={() => handleDelete(e.id)}
+                  >
+                    <AiTwotoneDelete
+                      className="buttons-size"
+                      style={{ color: "#e60000" }}
+                    />
+                  </button>
+                </td>
+                <td>
+                  <button className="buttons" onClick={() => handleEdit(e)}>
+                    <AiTwotoneEdit
+                      className="buttons-size"
+                      style={{ color: "#6666ff  " }}
+                    />
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </table>
+      </div>
+    </div>
+  );
+}

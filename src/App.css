@@ -1,0 +1,122 @@
+.con {
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+  width: 400px;
+  /* height: 400px; */
+  background-color: #ffffff;
+  padding: 10px 30px;
+}
+
+.card_title {
+  text-align: center;
+  padding: 10px;
+}
+
+.card_title h1 {
+  font-size: 26px;
+  font-weight: bold;
+}
+input#email {
+  background-color: #e2e2e2;
+}
+input#password {
+  background-color: #e2e2e2;
+}
+input#cnfpassword {
+  background-color: #e2e2e2;
+}
+input#name {
+  background-color: #e2e2e2;
+}
+.pass-error {
+  color: red;
+}
+.req {
+  color: rgb(244, 24, 24);
+}
+
+.buttons {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+.buttons-size {
+  font-size: 35px;
+}
+.delete {
+  color: rgb(236, 32, 32);
+}
+.edit {
+  color: blue;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+tr:nth-child(odd) {
+  background-color: #d9d9d9;
+}
+tr:nth-child(1) {
+  /* background: #ddddbb;  */
+  /* color: b;s */
+}
+.checklabel {
+  margin-left: 5px;
+}
+.alert {
+}
+.error {
+  color: rgb(236, 32, 32);
+  font-size: 15px;
+}
+.name::first-letter {
+  text-transform: uppercase;
+}
+.emaill {
+  text-transform: lowercase;
+}
+.log-div {
+  background-color: #f8f9fa;
+}
+.icons {
+  font-size: 20px;
+  margin: 15px;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Poppins&display=swap");
+.modal-body,
+.modal-title,
+.stu,
+td,
+tr,
+.teacher {
+  font-family: "Poppins", sans-serif;
+}
+
+h3 span {
+  text-transform: capitalize;
+}
+td,
+th {
+  /* text-align: center; */
+}
+.namee:first-letter {
+  text-transform: uppercase;
+}
